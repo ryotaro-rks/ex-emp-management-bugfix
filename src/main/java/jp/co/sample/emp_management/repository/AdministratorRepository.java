@@ -3,6 +3,7 @@ package jp.co.sample.emp_management.repository;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -73,10 +74,16 @@ public class AdministratorRepository {
 	 * 
 	 * @param administrator 管理者情報
 	 */
-	public void insert(Administrator administrator) {
+	public Boolean insert(Administrator administrator) {
 		SqlParameterSource param = new BeanPropertySqlParameterSource(administrator);
 		String sql = "insert into administrators(name,mail_address,password)values(:name,:mailAddress,:password);";
-		template.update(sql, param);
+		try {
+			template.update(sql, param);
+			return true;
+		} catch (DuplicateKeyException e) {
+			System.out.println("重複エラー");
+			return false;
+		}
 	}
 
 	/**
