@@ -83,7 +83,7 @@ public class AdministratorController {
 		if (administratorService.insert(administrator)) {
 			return "redirect:/";
 		} else {
-			model.addAttribute("duplicateMessage", "既に登録されているメールアドレスです");
+			result.rejectValue("mailAddress", null, "メールアドレスを入力してください");
 			return toInsert();
 		}
 	}
