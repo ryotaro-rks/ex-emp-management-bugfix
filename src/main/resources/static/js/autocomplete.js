@@ -1,4 +1,5 @@
 $( function(){
+    console.log("autocomplete開始")
     $("#searchLikeName").autocomplete({
         source: function(req, resp){
             $.ajax({
@@ -10,7 +11,8 @@ $( function(){
                 dataType: "json",
                 success: function (employees) {
                     resp(employees)
-                }
+                },
+                async: true,
             }).done( function(data) {
                 console.dir(JSON.stringify(data))
             }).fail( function(XMLHttpRequest, testStatus, errorThrown) {
