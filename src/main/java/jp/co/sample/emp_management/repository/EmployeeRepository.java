@@ -83,4 +83,16 @@ public class EmployeeRepository {
 		String updateSql = "UPDATE employees SET dependents_count=:dependentsCount WHERE id=:id";
 		template.update(updateSql, param);
 	}
+
+	/**
+	 * 名前による従業員の曖昧検索
+	 * 
+	 * @param name 検索された名前
+	 * @return 検索された名前の曖昧検索に一致した従業員のリスト
+	 */
+	public List<Employee> findByLikeName(String name) {
+		String sql = "SELECT id,name,image,gender,hire_date,mail_address,zip_code,address,telephone,salary,characteristics,dependents_count FROM employees where name like :name order by hire_date";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%" + name + "%");
+		return template.query(sql, param, EMPLOYEE_ROW_MAPPER);
+	}
 }
