@@ -17,7 +17,7 @@ public class AutoCompleteApiEmployee {
 	@Autowired
 	private EmployeeService employeeService;
 
-	@RequestMapping(value = "/autocomplete", method = RequestMethod.POST)
+	@RequestMapping(value = "/autocomplete", method = RequestMethod.GET)
 	public List<String> autocomplete(String name) {
 		List<Employee> employeeList = employeeService.showListByLikeName(name);
 		List<String> employeeNameList = new ArrayList<>();
