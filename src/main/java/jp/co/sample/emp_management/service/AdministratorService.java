@@ -40,8 +40,9 @@ public class AdministratorService {
 	public Boolean insert(Administrator administrator) {
 		// パスワードのハッシュ化
 		// 参考URL: https://qiita.com/NagaokaKenichi/items/2742749a93df15b55d24
-		System.out.println(administrator.getPassword());
-		System.out.println(passwordEncoder.encode(administrator.getPassword()));
+		String passwordHashed = passwordEncoder.encode(administrator.getPassword());
+		administrator.setPassword(passwordHashed);
+		System.out.println(administrator.toString());
 		return administratorRepository.insert(administrator);
 	}
 
