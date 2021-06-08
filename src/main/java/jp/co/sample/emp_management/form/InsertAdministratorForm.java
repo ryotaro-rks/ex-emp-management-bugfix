@@ -20,6 +20,9 @@ public class InsertAdministratorForm {
 	@NotBlank(message = "パスワード入力欄が空です")
 	@Size(min = 8, max = 20, message = "パスワードは8文字以上20文字以内で設定してください")
 	private String password;
+	/** 確認用パスワード */
+	@NotBlank(message = "確認用パスワード入力欄が空です")
+	private String passwordConfirmation;
 
 	/**
 	 * @return the name
@@ -63,10 +66,18 @@ public class InsertAdministratorForm {
 		this.password = password;
 	}
 
+	public String getPasswordConfirmation() {
+		return passwordConfirmation;
+	}
+
+	public void setPasswordConfirmation(String passwordConfirmation) {
+		this.passwordConfirmation = passwordConfirmation;
+	}
+
 	@Override
 	public String toString() {
 		return "InsertAdministratorForm [name=" + name + ", mailAddress=" + mailAddress + ", password=" + password
-				+ "]";
+				+ ", passwordConfirmation=" + passwordConfirmation + "]";
 	}
 
 }
