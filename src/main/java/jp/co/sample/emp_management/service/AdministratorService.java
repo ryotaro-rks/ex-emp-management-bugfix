@@ -28,7 +28,7 @@ public class AdministratorService {
 
 	// DIコンテナに追加、PasswordEncoderを注入できるようにする
 	@Bean
-	PasswordEncoder passwordEncoder() {
+	private PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
