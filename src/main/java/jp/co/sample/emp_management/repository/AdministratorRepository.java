@@ -62,18 +62,13 @@ public class AdministratorRepository {
 	 * @param password    パスワード
 	 * @return 管理者情報 存在しない場合はnullを返します
 	 */
-	public Administrator findByMailAddressAndPassward(String mailAddress, String password) {
+	public Administrator findByMailAddressAndPassward(String mailAddress) {
 		String sql = "select id,name,mail_address,password from administrators where mail_address= :mailAddress";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("mailAddress", mailAddress);
 		List<Administrator> administratorList = template.query(sql, param, ADMINISTRATOR_ROW_MAPPER);
 		if (administratorList.size() == 0) {
 			return null;
 		}
-		// ハッシュ化されたパスワードとの比較
-		if (!passwordEncoder.matches(password, administratorList.get(0).getPassword())) {
-			return null;
-		}
-
 		return administratorList.get(0);
 	}
 

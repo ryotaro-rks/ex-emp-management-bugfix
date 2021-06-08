@@ -42,7 +42,6 @@ public class AdministratorService {
 		// 参考URL: https://qiita.com/NagaokaKenichi/items/2742749a93df15b55d24
 		String passwordHashed = passwordEncoder.encode(administrator.getPassword());
 		administrator.setPassword(passwordHashed);
-		System.out.println(administrator.toString());
 		return administratorRepository.insert(administrator);
 	}
 
@@ -54,7 +53,18 @@ public class AdministratorService {
 	 * @return 管理者情報 存在しない場合はnullが返ります
 	 */
 	public Administrator login(String mailAddress, String password) {
-		Administrator administrator = administratorRepository.findByMailAddressAndPassward(mailAddress, password);
+		Administrator administrator = administratorRepository.findByMailAddressAndPassward(mailAddress);
+
+		// メールアドレスが存在しなかった場合
+		if (administrator == null) {
+			return administrator;
+		}
+
+		// パスワードが一致しなかった場合
+		if (!passwordEncoder.matches(password, administrator.getPassword())) {
+			return null;
+		}
+
 		return administrator;
 	}
 }
