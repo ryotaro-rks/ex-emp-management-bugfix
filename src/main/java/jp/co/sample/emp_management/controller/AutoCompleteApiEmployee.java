@@ -13,7 +13,7 @@ import jp.co.sample.emp_management.service.EmployeeService;
 
 @RestController
 @RequestMapping("/employee")
-public class AutoCompleteEmployee {
+public class AutoCompleteApiEmployee {
 	@Autowired
 	private EmployeeService employeeService;
 

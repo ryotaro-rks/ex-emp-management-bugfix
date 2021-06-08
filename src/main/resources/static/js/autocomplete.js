@@ -3,8 +3,8 @@ $( function(){
     $("#searchLikeName").autocomplete({
         source: function(req, resp){
             $.ajax({
-                type: "http://localhost:8080/employee/autocomplete",
-                url: "url",
+                type: "post",
+                url: "http://localhost:8080/employee/autocomplete",
                 data: {
                     keyword: req.term
                 },
