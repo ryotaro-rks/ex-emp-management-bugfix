@@ -57,10 +57,10 @@ public class EmployeeService {
 	 * 名前による従業員曖昧検索
 	 * 
 	 * @param name 検索された名前
-	 * @return 名前曖昧検索による従業員リスト (名前が空の場合全件返す)
+	 * @return 名前曖昧検索による従業員リスト (名前がnullまたは空の場合全件返す)
 	 */
 	public List<Employee> showListByLikeName(String name) {
-		if (name.equals("")) {
+		if (name == null || name.equals("")) {
 			return employeeRepository.findAll();
 		}
 

@@ -38,22 +38,6 @@ public class EmployeeController {
 	}
 
 	/////////////////////////////////////////////////////
-	// ユースケース：従業員一覧を表示する
-	/////////////////////////////////////////////////////
-	/**
-	 * 従業員一覧画面を出力します.
-	 * 
-	 * @param model モデル
-	 * @return 従業員一覧画面
-	 */
-	@RequestMapping("/showList")
-	public String showList(Model model) {
-		List<Employee> employeeList = employeeService.showList();
-		model.addAttribute("employeeList", employeeList);
-		return "employee/list";
-	}
-
-	/////////////////////////////////////////////////////
 	// ユースケース：従業員詳細を表示する
 	/////////////////////////////////////////////////////
 	/**
@@ -97,8 +81,8 @@ public class EmployeeController {
 	 * @param name 検索された名前
 	 * @return 従業員一覧ページへのフォワード
 	 */
-	@RequestMapping("/findByLikeName")
-	public String findByLikeName(String name, Model model) {
+	@RequestMapping("/searchByLikeName")
+	public String searchByLikeName(String name, Model model) {
 		List<Employee> employeeList = employeeService.showListByLikeName(name);
 		if (employeeList.size() == 0) {
 			employeeList = employeeService.showList();
