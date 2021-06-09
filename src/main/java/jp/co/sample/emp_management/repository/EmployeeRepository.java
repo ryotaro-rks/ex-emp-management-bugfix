@@ -44,13 +44,15 @@ public class EmployeeRepository {
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 
+	private final static String ALL_COLUMN_NAME = "id,name,image,gender,hire_date,mail_address,zip_code,address,telephone,salary,characteristics,dependents_count";
+
 	/**
 	 * 従業員一覧情報を入社日順で取得します.
 	 * 
 	 * @return 全従業員一覧 従業員が存在しない場合はサイズ0件の従業員一覧を返します
 	 */
 	public List<Employee> findAll() {
-		String sql = "SELECT id,name,image,gender,hire_date,mail_address,zip_code,address,telephone,salary,characteristics,dependents_count FROM employees order by hire_date";
+		String sql = "SELECT " + ALL_COLUMN_NAME + " FROM employees order by hire_date";
 
 		List<Employee> developmentList = template.query(sql, EMPLOYEE_ROW_MAPPER);
 
@@ -65,7 +67,7 @@ public class EmployeeRepository {
 	 * @exception org.springframework.dao.DataAccessException 従業員が存在しない場合は例外を発生します
 	 */
 	public Employee load(Integer id) {
-		String sql = "SELECT id,name,image,gender,hire_date,mail_address,zip_code,address,telephone,salary,characteristics,dependents_count FROM employees WHERE id=:id";
+		String sql = "SELECT " + ALL_COLUMN_NAME + " FROM employees WHERE id=:id";
 
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 
@@ -91,7 +93,7 @@ public class EmployeeRepository {
 	 * @return 検索された名前の曖昧検索に一致した従業員のリスト
 	 */
 	public List<Employee> findByLikeName(String name) {
-		String sql = "SELECT id,name,image,gender,hire_date,mail_address,zip_code,address,telephone,salary,characteristics,dependents_count FROM employees where name like :name order by hire_date";
+		String sql = "SELECT " + ALL_COLUMN_NAME + " FROM employees where name like :name order by hire_date";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%" + name + "%");
 		return template.query(sql, param, EMPLOYEE_ROW_MAPPER);
 	}
@@ -105,5 +107,18 @@ public class EmployeeRepository {
 		String sql = "select count(*) from employees";
 		SqlParameterSource param = new MapSqlParameterSource();
 		return template.queryForObject(sql, param, Integer.class);
+	}
+
+	/**
+	 * 従業員を範囲指定して取得.
+	 * 
+	 * @param limit  取得従業員数
+	 * @param offset 取得開始行数
+	 * @return 従業員リスト
+	 */
+	public List<Employee> findByLimitAndOffset(int limit, int offset) {
+		String sql = "select " + ALL_COLUMN_NAME + " from employees limit :limit offset :offset";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("limit", limit).addValue("offset", offset);
+		return template.query(sql, param, EMPLOYEE_ROW_MAPPER);
 	}
 }

@@ -75,4 +75,16 @@ public class EmployeeService {
 	public int getNumbersEmployee() {
 		return employeeRepository.getNumbersEmployee();
 	}
+
+	/**
+	 * 指定した数・ページ番号の従業員を取得.
+	 * 
+	 * @param limit      一回で取得する従業員数
+	 * @param pageNumber 何ページ目の従業員リストか
+	 * @return 従業員リスト
+	 */
+	public List<Employee> showListByLimitAndPageNumber(int limit, int pageNumber) {
+		int offset = limit * (pageNumber - 1) + 1;
+		return employeeRepository.findByLimitAndOffset(limit, offset);
+	}
 }
