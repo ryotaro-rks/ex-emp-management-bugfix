@@ -1,7 +1,5 @@
 $( function(){
-    console.log("autocomplete開始")
     let hostUrl = "http://localhost:8080/employee/autocomplete";
-    let employees;
 
     $.ajax({
         url: hostUrl,
@@ -9,12 +7,7 @@ $( function(){
         dataType: "json",
         async: true,
     }).done( function(data) {
-        // ここでemployeesに従業員一覧を入れる
-        console.log("データ受け取り完了")
-    	console.dir(JSON.stringify(data))
-        employees = data
-        console.dir(employees)
-        console.log(data)
+        let employees = data
         $("#searchLikeName").autocomplete({
         	source: employees
         });
