@@ -55,8 +55,7 @@ class AdministratorRepositoryTest {
 	@Test
 	public void testFindByMailAddressAndPassward() {
 		System.out.println("メールアドレスとパスワードで検索するテスト開始");
-		Administrator resultAdministrator = administratorRepository.findByMailAddressAndPassward("igaiga@sample.com",
-				"testtest");
+		Administrator resultAdministrator = administratorRepository.findByMailAddress("igaiga@sample.com");
 
 		assertEquals("伊賀将之", resultAdministrator.getName(), "名前が登録されていません");
 		assertEquals("igaiga@sample.com", resultAdministrator.getMailAddress(), "メールアドレスが登録されていません");
