@@ -12,9 +12,12 @@ $( function(){
         // ここでemployeesに従業員一覧を入れる
         console.log("データ受け取り完了")
     	console.dir(JSON.stringify(data))
-        employees = JSON.stringify(data)
-        console.log(employees)
+        employees = data
+        console.dir(employees)
         console.log(data)
+        $("#searchLikeName").autocomplete({
+        	source: employees
+        });
     }).fail( function(XMLHttpRequest, testStatus, errorThrown) {
         alert("エラーが発生しました.");
         console.log('XMLHttpRequest: ' + XMLHttpRequest);
@@ -22,7 +25,4 @@ $( function(){
         console.log("errorThrown" + errorThrown);
     })
     
-    $("#searchLikeName").autocomplete({
-    	source: employees
-    });
 });
