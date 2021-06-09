@@ -66,4 +66,13 @@ public class EmployeeService {
 
 		return employeeRepository.findByLikeName(name);
 	}
+
+	/**
+	 * 全従業員数を取得.
+	 * 
+	 * @return 全従業員数
+	 */
+	public int getNumbersEmployee() {
+		return employeeRepository.getNumbersEmployee();
+	}
 }
