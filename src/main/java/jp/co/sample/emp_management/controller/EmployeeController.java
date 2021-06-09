@@ -1,5 +1,6 @@
 package jp.co.sample.emp_management.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,13 +83,30 @@ public class EmployeeController {
 	 * @return 従業員一覧ページへのフォワード
 	 */
 	@RequestMapping("/searchByLikeName")
-	public String searchByLikeName(String name, Model model) {
-		List<Employee> employeeList = employeeService.showListByLikeName(name);
+	public String searchByLikeName(String name, Integer pageNumber, Model model) {
+		// ページ遷移用ボタンに設定するname属性
+		model.addAttribute("name", name);
+
+		// limitとoffsetをつけて従業員リストを追加
+		int limit = 10;
+		if (pageNumber == null) {
+			pageNumber = 1;
+		}
+		List<Employee> employeeList = employeeService.showListByLimitAndPageNumber(name, limit, pageNumber);
 		if (employeeList.size() == 0) {
 			employeeList = employeeService.showList();
 			model.addAttribute("message", "１件もありませんでした");
 		}
 		model.addAttribute("employeeList", employeeList);
+
+		// ボタンを表示
+		// 検索される名前に応じてページ数が変わるように実装
+		List<Integer> pageNumbers = new ArrayList<>();
+		int pages = employeeService.getNumbersEmployee(name) / limit;
+		for (int i = 0; i <= pages; i++) {
+			pageNumbers.add(i + 1);
+		}
+		model.addAttribute("pageNumbers", pageNumbers);
 		return "employee/list";
 	}
 }
