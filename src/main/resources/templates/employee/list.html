@@ -96,6 +96,11 @@
 						</tr>
 					</tbody>
 				</table>
+				
+				<form th:action = "@{/employee/searchByLikeName}" method="post">
+					<input type="hidden" name="name" th:value="${name}">
+					<button th:each = "pageNumber : ${pageNumbers}" id="pageNumber" name="pageNumber" th:text="${pageNumber}" th:value="${pageNumber}"></button>
+				</form>
 
 
 <!-- ここから下を編集する必要はありません -->

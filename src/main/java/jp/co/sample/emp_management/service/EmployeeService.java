@@ -70,21 +70,29 @@ public class EmployeeService {
 	/**
 	 * 全従業員数を取得.
 	 * 
+	 * @param name 曖昧検索用の名前
 	 * @return 全従業員数
 	 */
-	public int getNumbersEmployee() {
-		return employeeRepository.getNumbersEmployee();
+	public int getNumbersEmployee(String name) {
+		if (name == null) {
+			name = "";
+		}
+		return employeeRepository.getNumbersEmployee(name);
 	}
 
 	/**
-	 * 指定した数・ページ番号の従業員を取得.
+	 * 指定した曖昧検索用の名前・数・ページ番号の従業員を取得.
 	 * 
+	 * @param name       曖昧検索用の名前
 	 * @param limit      一回で取得する従業員数
 	 * @param pageNumber 何ページ目の従業員リストか
 	 * @return 従業員リスト
 	 */
-	public List<Employee> showListByLimitAndPageNumber(int limit, int pageNumber) {
-		int offset = limit * (pageNumber - 1) + 1;
-		return employeeRepository.findByLimitAndOffset(limit, offset);
+	public List<Employee> showListByLimitAndPageNumber(String name, int limit, int pageNumber) {
+		int offset = limit * (pageNumber - 1);
+		if (name == null) {
+			name = "";
+		}
+		return employeeRepository.findByLikeNameLimitAndOffset(name, limit, offset);
 	}
 }

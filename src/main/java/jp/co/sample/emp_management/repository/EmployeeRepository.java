@@ -81,7 +81,6 @@ public class EmployeeRepository {
 	 */
 	public void update(Employee employee) {
 		SqlParameterSource param = new BeanPropertySqlParameterSource(employee);
-
 		String updateSql = "UPDATE employees SET dependents_count=:dependentsCount WHERE id=:id";
 		template.update(updateSql, param);
 	}
@@ -101,24 +100,26 @@ public class EmployeeRepository {
 	/**
 	 * 全従業員数の取得.
 	 * 
+	 * @param name 曖昧検索用の名前
 	 * @return 全従業員数
 	 */
-	public int getNumbersEmployee() {
-		String sql = "select count(*) from employees";
-		SqlParameterSource param = new MapSqlParameterSource();
-		return template.queryForObject(sql, param, Integer.class);
+	public int getNumbersEmployee(String name) {
+		return findByLikeName(name).size();
 	}
 
 	/**
 	 * 従業員を範囲指定して取得.
 	 * 
+	 * @param name   曖昧検索用の名前
 	 * @param limit  取得従業員数
 	 * @param offset 取得開始行数
 	 * @return 従業員リスト
 	 */
-	public List<Employee> findByLimitAndOffset(int limit, int offset) {
-		String sql = "select " + ALL_COLUMN_NAME + " from employees limit :limit offset :offset";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("limit", limit).addValue("offset", offset);
+	public List<Employee> findByLikeNameLimitAndOffset(String name, int limit, int offset) {
+		String sql = "select " + ALL_COLUMN_NAME
+				+ " from employees where name like :name order by hire_date limit :limit offset :offset";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%" + name + "%")
+				.addValue("limit", limit).addValue("offset", offset);
 		return template.query(sql, param, EMPLOYEE_ROW_MAPPER);
 	}
 }
